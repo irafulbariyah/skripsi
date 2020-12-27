@@ -500,21 +500,6 @@ INSERT INTO `master_bobot_nilai` (`bobot_nilai_id`, `nilai`, `indeks`, `predikat
 	(10, 'E', 0, 'Sangat Kurang');
 /*!40000 ALTER TABLE `master_bobot_nilai` ENABLE KEYS */;
 
--- Dumping structure for table siakad_stimata.master_devisi
-CREATE TABLE IF NOT EXISTS `master_devisi` (
-  `idDevisi` int(11) NOT NULL AUTO_INCREMENT,
-  `nama` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`idDevisi`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
--- Dumping data for table siakad_stimata.master_devisi: ~2 rows (approximately)
-DELETE FROM `master_devisi`;
-/*!40000 ALTER TABLE `master_devisi` DISABLE KEYS */;
-INSERT INTO `master_devisi` (`idDevisi`, `nama`) VALUES
-	(1, 'dosen'),
-	(2, 'karyawan');
-/*!40000 ALTER TABLE `master_devisi` ENABLE KEYS */;
-
 -- Dumping structure for table siakad_stimata.master_hak_akses
 CREATE TABLE IF NOT EXISTS `master_hak_akses` (
   `master_hak_akses_id` int(10) NOT NULL AUTO_INCREMENT,
@@ -522,7 +507,7 @@ CREATE TABLE IF NOT EXISTS `master_hak_akses` (
   PRIMARY KEY (`master_hak_akses_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
--- Dumping data for table siakad_stimata.master_hak_akses: ~10 rows (approximately)
+-- Dumping data for table siakad_stimata.master_hak_akses: ~8 rows (approximately)
 DELETE FROM `master_hak_akses`;
 /*!40000 ALTER TABLE `master_hak_akses` DISABLE KEYS */;
 INSERT INTO `master_hak_akses` (`master_hak_akses_id`, `nama`) VALUES
@@ -545,7 +530,7 @@ CREATE TABLE IF NOT EXISTS `master_jabatan_karyawan` (
   PRIMARY KEY (`jabatan_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
--- Dumping data for table siakad_stimata.master_jabatan_karyawan: ~14 rows (approximately)
+-- Dumping data for table siakad_stimata.master_jabatan_karyawan: ~13 rows (approximately)
 DELETE FROM `master_jabatan_karyawan`;
 /*!40000 ALTER TABLE `master_jabatan_karyawan` DISABLE KEYS */;
 INSERT INTO `master_jabatan_karyawan` (`jabatan_id`, `nama`) VALUES
@@ -623,87 +608,84 @@ CREATE TABLE IF NOT EXISTS `master_karyawan` (
   `tgl_lahir` date DEFAULT NULL,
   `keahlian` varchar(100) DEFAULT NULL,
   `home_base` varchar(100) DEFAULT NULL,
-  `idDevisi` int(11) DEFAULT NULL,
   `jafa_id` int(11) DEFAULT NULL,
   `jabatan_id` int(11) DEFAULT NULL,
   `status_dosen_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`nip`),
   KEY `FK_dosen_3` (`status_dosen_id`),
   KEY `FK_master_dosen_master_jafa_dosen` (`jafa_id`),
-  KEY `FK_master_karyawan_master_devisi` (`idDevisi`),
   KEY `FK_master_dosen_master_jabatan_karyawan` (`jabatan_id`),
   CONSTRAINT `FK_dosen_3` FOREIGN KEY (`status_dosen_id`) REFERENCES `master_status_dosen` (`status_dosen_id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `FK_master_dosen_master_jabatan_karyawan` FOREIGN KEY (`jabatan_id`) REFERENCES `master_jabatan_karyawan` (`jabatan_id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `FK_master_dosen_master_jafa_dosen` FOREIGN KEY (`jafa_id`) REFERENCES `master_pangkat_dosen` (`jafa_id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `FK_master_karyawan_master_devisi` FOREIGN KEY (`idDevisi`) REFERENCES `master_devisi` (`idDevisi`)
+  CONSTRAINT `FK_master_dosen_master_jafa_dosen` FOREIGN KEY (`jafa_id`) REFERENCES `master_pangkat_dosen` (`jafa_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table siakad_stimata.master_karyawan: ~62 rows (approximately)
 DELETE FROM `master_karyawan`;
 /*!40000 ALTER TABLE `master_karyawan` DISABLE KEYS */;
-INSERT INTO `master_karyawan` (`nip`, `nidn`, `nama`, `alamat_asal`, `alamat_domisili`, `no_telp`, `email`, `tempat_lahir`, `tgl_lahir`, `keahlian`, `home_base`, `idDevisi`, `jafa_id`, `jabatan_id`, `status_dosen_id`) VALUES
-	('00.12.01.001', '0702046705', 'Sapta Aji Sri Margiutomo, S.Kom., M.M.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('00.12.01.002', '0707087301', 'Dr. Tubagus Mohammad Akhriza, S.Si., MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('00.12.01.004', '0714067301', 'Eni Farida, S.Ag., M.M.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('00.12.01.006', '0726086802', 'Rahayu Widayanti, S.E., M.M.,MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('00.12.01.008', '0717106702', 'Jauharul Maknunah, S.E., M.M.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('00.12.01.009', '0004077304', 'Dr. Khoerul Anwar, S.T., M.T.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('00.12.01.010', '0726037401', 'Sujito, S.Kom., M.Pd.MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('00.12.01.011', '0716087501', 'Mahmud Yunus, S.Kom., M.Pd. MT.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('00.12.01.015', '', 'Ali Qody, S.S.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('00.12.01.016', '0721107902', 'Dwi Safiroh Utsalina, S.Kom.,MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('00.12.01.019', '0712027801', 'Fitri Marisa, S.Kom., M.Pd.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('00.12.01.023', '0728047403', 'Syahminan, S.Kom., M.Kom.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('00.12.01.025', '0718067401', 'Sigit Setyowibowo, S.T.,MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('00.12.01.106', '0729096803', 'Teguh Santoso, M.Pd.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('00.12.01.107', '0718047402', 'Dita Savitri, S.Pd.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('01.09.10.036', '0728056102', 'Mochamad Husni, S.Pd.I., M.M.,MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('01.10.01.037', '0715017701', 'Dr. Indah Dwi Mumpuni, S.Kom., M.M.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('02.04.01.127', '0024085407', 'Drs. Widjianto, M.Kom.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('02.08.01.043', '0702027805', 'Heri Purnomo, S.Kom.,MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('02.10.01.130', '0706047102', 'Sri Esti Trisno Sami., S.T.,MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('03.12.01.013', '0716046802', 'Retno Sundari, S.Pd., M.M.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('04.10.20.002', '', 'Erfandi Hermawanto, S.Pd.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('05.03.02.004', '0728117001', 'Mohamad As\'ad, S.Si., M.Si.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('06.02.25.036', '0730118201', 'Luqman Affandi, S.Kom., MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('06.09.18.006', '0717017304', 'Antonius Duty Susilo, S.Pd., M.T.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('07.01.02.001', '0708097603', 'Evy Sophia, S.Pd.,MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('07.05.21.011', '', 'Amelia Rumbiak', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('07.09.18.013', '0705048105', 'Meme Susilowati, S.Kom., MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('07.09.18.014', '0027026903', 'Daeng Achmad Suaidi, S.Si., M.Kom', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('08.03.10.003', '0711048202', 'Andri Prasetyo, S.E.,MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('09.03.16.106', '0712047201', 'Zuraidah, M.Si.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('09.03.25.001', '0702108502', 'Dian Wahyuningsih, S.Kom.,MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('09.09.07.109', '0022126206', 'Drs. Slamet, M.Si.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('09.09.07.112', '0710108001', 'Roesdy Adham Trilaksono, S.Kom.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('10.03.15.103', '0009088107', 'Banni Satria Andoko, S.Kom., MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('11.03.21.002', '0713027803', 'Eko Teguh Triwisuda, M.T.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('11.03.21.004', '', 'Ratna Suita, S.Pd.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('11.03.21.005', '0014047705', 'Rekyan Regasari, M.T.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('11.05.25.001', '0706077901', 'Dinny Wahyu Widarti, S.Kom.,MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('11.05.25.003', '0717038602', 'Linda Suvi Rahmawati, S.Kom.,MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('11.09.19.001', '0721037701', 'Gede Arka Puniatmaja, M.Kom.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('11.10.25.004', '0705058007', 'Samsul Arifin, S.Kom.,MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('12.03.25.101', '', 'Yansina Yudit Unimera, M.A., M.Th.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('13.03.25.001', '', 'Syahroni, S.Kom', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('13.09.25.003', '', 'Saatul Ihsan, S.Kom.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('13.09.25.004', '', 'Moh. Ahsan, S.Kom.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('13.09.25.005', '', 'Vita Kusumasari, M.Pd.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('14.02.25.001', '0710119101', 'Ali Syaifulloh, S.Kom.,MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('14.02.25.002', '0710028901', 'Nasrul Firdaus, S.Kom.,MMSI', 'Jalan Pondok RT 03/RW05 Paciran Lamongan', 'Perumahan Mondoroko Raya Blok GH 6 No 101 Singosari Malang', '+6285649602435', 'nasrul@stimata.ac.id', 'Lamongan', '1989-02-10', NULL, NULL, NULL, NULL, NULL, NULL),
-	('14.02.25.003', '0725118406', 'Dr. Weda Adistianaya Dewa, S.Kom., MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('14.02.25.004', '0709028901', 'Liduina Asih Primandari, S.Si., M.Si', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('14.03.25.101', '', 'Hanavi, M.Th', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('14.04.25.101', '', 'Arif Saivul Afandi, S.Kom.,MM', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('14.05.25.102', '', 'Dr. Aviananta Tarigan, ST', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('14.10.25.101', '', 'Tatik, M.Pd', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('14.10.25.102', '', 'Fatkhur Rohman, S.ST., MT', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('14.10.25.103', '', 'Sofyan Arifianto, S.Si.,M.Kom', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('15.03.25.101', '', 'Erwin Tjipta Wijaya, S.T., M.Kom', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('15.09.25.102', '', 'Doddy Maulana, SE.,M.T.,MSc', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('16.09.19.001', '0710069002', 'Eka Yuniar, S.Kom., MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('18.07.30.001', '', 'Muhammad Ali Agung Baroto, S.Pd., M.Pd', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	('19.09.01.003', '', 'Rendhi Fatrisna Yuniar, M.Pd', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `master_karyawan` (`nip`, `nidn`, `nama`, `alamat_asal`, `alamat_domisili`, `no_telp`, `email`, `tempat_lahir`, `tgl_lahir`, `keahlian`, `home_base`, `jafa_id`, `jabatan_id`, `status_dosen_id`) VALUES
+	('00.12.01.001', '0702046705', 'Sapta Aji Sri Margiutomo, S.Kom., M.M.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('00.12.01.002', '0707087301', 'Dr. Tubagus Mohammad Akhriza, S.Si., MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('00.12.01.004', '0714067301', 'Eni Farida, S.Ag., M.M.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('00.12.01.006', '0726086802', 'Rahayu Widayanti, S.E., M.M.,MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('00.12.01.008', '0717106702', 'Jauharul Maknunah, S.E., M.M.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('00.12.01.009', '0004077304', 'Dr. Khoerul Anwar, S.T., M.T.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('00.12.01.010', '0726037401', 'Sujito, S.Kom., M.Pd.MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('00.12.01.011', '0716087501', 'Mahmud Yunus, S.Kom., M.Pd. MT.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('00.12.01.015', '', 'Ali Qody, S.S.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('00.12.01.016', '0721107902', 'Dwi Safiroh Utsalina, S.Kom.,MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('00.12.01.019', '0712027801', 'Fitri Marisa, S.Kom., M.Pd.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('00.12.01.023', '0728047403', 'Syahminan, S.Kom., M.Kom.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('00.12.01.025', '0718067401', 'Sigit Setyowibowo, S.T.,MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('00.12.01.106', '0729096803', 'Teguh Santoso, M.Pd.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('00.12.01.107', '0718047402', 'Dita Savitri, S.Pd.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('01.09.10.036', '0728056102', 'Mochamad Husni, S.Pd.I., M.M.,MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('01.10.01.037', '0715017701', 'Dr. Indah Dwi Mumpuni, S.Kom., M.M.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('02.04.01.127', '0024085407', 'Drs. Widjianto, M.Kom.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('02.08.01.043', '0702027805', 'Heri Purnomo, S.Kom.,MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('02.10.01.130', '0706047102', 'Sri Esti Trisno Sami., S.T.,MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('03.12.01.013', '0716046802', 'Retno Sundari, S.Pd., M.M.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('04.10.20.002', '', 'Erfandi Hermawanto, S.Pd.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('05.03.02.004', '0728117001', 'Mohamad As\'ad, S.Si., M.Si.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('06.02.25.036', '0730118201', 'Luqman Affandi, S.Kom., MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('06.09.18.006', '0717017304', 'Antonius Duty Susilo, S.Pd., M.T.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('07.01.02.001', '0708097603', 'Evy Sophia, S.Pd.,MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('07.05.21.011', '', 'Amelia Rumbiak', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('07.09.18.013', '0705048105', 'Meme Susilowati, S.Kom., MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('07.09.18.014', '0027026903', 'Daeng Achmad Suaidi, S.Si., M.Kom', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('08.03.10.003', '0711048202', 'Andri Prasetyo, S.E.,MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('09.03.16.106', '0712047201', 'Zuraidah, M.Si.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('09.03.25.001', '0702108502', 'Dian Wahyuningsih, S.Kom.,MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('09.09.07.109', '0022126206', 'Drs. Slamet, M.Si.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('09.09.07.112', '0710108001', 'Roesdy Adham Trilaksono, S.Kom.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('10.03.15.103', '0009088107', 'Banni Satria Andoko, S.Kom., MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('11.03.21.002', '0713027803', 'Eko Teguh Triwisuda, M.T.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('11.03.21.004', '', 'Ratna Suita, S.Pd.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('11.03.21.005', '0014047705', 'Rekyan Regasari, M.T.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('11.05.25.001', '0706077901', 'Dinny Wahyu Widarti, S.Kom.,MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('11.05.25.003', '0717038602', 'Linda Suvi Rahmawati, S.Kom.,MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('11.09.19.001', '0721037701', 'Gede Arka Puniatmaja, M.Kom.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('11.10.25.004', '0705058007', 'Samsul Arifin, S.Kom.,MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('12.03.25.101', '', 'Yansina Yudit Unimera, M.A., M.Th.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('13.03.25.001', '', 'Syahroni, S.Kom', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('13.09.25.003', '', 'Saatul Ihsan, S.Kom.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('13.09.25.004', '', 'Moh. Ahsan, S.Kom.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('13.09.25.005', '', 'Vita Kusumasari, M.Pd.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('14.02.25.001', '0710119101', 'Ali Syaifulloh, S.Kom.,MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('14.02.25.002', '0710028901', 'Nasrul Firdaus, S.Kom.,MMSI', 'Jalan Pondok RT 03/RW05 Paciran Lamongan', 'Perumahan Mondoroko Raya Blok GH 6 No 101 Singosari Malang', '+6285649602435', 'nasrul@stimata.ac.id', 'Lamongan', '1989-02-10', NULL, NULL, NULL, NULL, NULL),
+	('14.02.25.003', '0725118406', 'Dr. Weda Adistianaya Dewa, S.Kom., MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('14.02.25.004', '0709028901', 'Liduina Asih Primandari, S.Si., M.Si', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('14.03.25.101', '', 'Hanavi, M.Th', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('14.04.25.101', '', 'Arif Saivul Afandi, S.Kom.,MM', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('14.05.25.102', '', 'Dr. Aviananta Tarigan, ST', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('14.10.25.101', '', 'Tatik, M.Pd', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('14.10.25.102', '', 'Fatkhur Rohman, S.ST., MT', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('14.10.25.103', '', 'Sofyan Arifianto, S.Si.,M.Kom', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('15.03.25.101', '', 'Erwin Tjipta Wijaya, S.T., M.Kom', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('15.09.25.102', '', 'Doddy Maulana, SE.,M.T.,MSc', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('16.09.19.001', '0710069002', 'Eka Yuniar, S.Kom., MMSI', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('18.07.30.001', '', 'Muhammad Ali Agung Baroto, S.Pd., M.Pd', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	('19.09.01.003', '', 'Rendhi Fatrisna Yuniar, M.Pd', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `master_karyawan` ENABLE KEYS */;
 
 -- Dumping structure for table siakad_stimata.master_kelas
@@ -713,7 +695,7 @@ CREATE TABLE IF NOT EXISTS `master_kelas` (
   PRIMARY KEY (`id_master_kelas`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Dumping data for table siakad_stimata.master_kelas: ~3 rows (approximately)
+-- Dumping data for table siakad_stimata.master_kelas: ~2 rows (approximately)
 DELETE FROM `master_kelas`;
 /*!40000 ALTER TABLE `master_kelas` DISABLE KEYS */;
 INSERT INTO `master_kelas` (`id_master_kelas`, `nama`) VALUES
@@ -807,7 +789,7 @@ CREATE TABLE IF NOT EXISTS `master_mata_kuliah` (
   PRIMARY KEY (`kode_matkul`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table siakad_stimata.master_mata_kuliah: ~662 rows (approximately)
+-- Dumping data for table siakad_stimata.master_mata_kuliah: ~601 rows (approximately)
 DELETE FROM `master_mata_kuliah`;
 /*!40000 ALTER TABLE `master_mata_kuliah` DISABLE KEYS */;
 INSERT INTO `master_mata_kuliah` (`kode_matkul`, `nama`, `sks`, `syarat`, `semester`, `status`, `keterangan`) VALUES
@@ -1514,7 +1496,7 @@ CREATE TABLE IF NOT EXISTS `master_ruangan` (
   PRIMARY KEY (`ruangan_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table siakad_stimata.master_ruangan: ~19 rows (approximately)
+-- Dumping data for table siakad_stimata.master_ruangan: ~17 rows (approximately)
 DELETE FROM `master_ruangan`;
 /*!40000 ALTER TABLE `master_ruangan` DISABLE KEYS */;
 INSERT INTO `master_ruangan` (`ruangan_id`, `nama`) VALUES
@@ -1562,7 +1544,7 @@ CREATE TABLE IF NOT EXISTS `master_status_dosen` (
   PRIMARY KEY (`status_dosen_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table siakad_stimata.master_status_dosen: ~3 rows (approximately)
+-- Dumping data for table siakad_stimata.master_status_dosen: ~2 rows (approximately)
 DELETE FROM `master_status_dosen`;
 /*!40000 ALTER TABLE `master_status_dosen` DISABLE KEYS */;
 INSERT INTO `master_status_dosen` (`status_dosen_id`, `nama`) VALUES
@@ -1640,7 +1622,7 @@ CREATE TABLE IF NOT EXISTS `master_tugasakhir` (
   CONSTRAINT `FK_master_tugasakhir_master_jenjang` FOREIGN KEY (`jenjang`) REFERENCES `master_jenjang` (`id_master_jenjang`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Dumping data for table siakad_stimata.master_tugasakhir: ~3 rows (approximately)
+-- Dumping data for table siakad_stimata.master_tugasakhir: ~2 rows (approximately)
 DELETE FROM `master_tugasakhir`;
 /*!40000 ALTER TABLE `master_tugasakhir` DISABLE KEYS */;
 INSERT INTO `master_tugasakhir` (`master_tugasAkhir_id`, `jenis_tugas_akhir`, `jenjang`, `kode_matkul`) VALUES
